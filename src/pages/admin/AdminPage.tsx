@@ -36,7 +36,7 @@ export function AdminPage() {
       <ThinContainer>
         <Heading1>Admin tools</Heading1>
         <Paragraph>
-          Silly tools used to test AfterStream! ૮₍´˶• . • ⑅ ₎ა
+          Silly tools used to test Fatestream! ૮₍´˶• . • ⑅ ₎ა
         </Paragraph>
 
         <ConfigValuesPart />

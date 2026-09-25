@@ -171,12 +171,64 @@ export function decodeTMDBId(
 const tmdbBaseUrl1 = "https://api.themoviedb.org/3/";
 const tmdbBaseUrl2 = "https://api.tmdb.org/3/";
 
-const apiKey = conf().TMDB_READ_API_KEY;
+function getRawApiKey(): string | null {
+  // Allow runtime override via localStorage (user can set in console or settings)
+  try {
+    const override = localStorage.getItem("tmdb-api-key-override");
+    if (override && override.trim().length > 0) return override.trim();
+  } catch {
+    // ignore
+  }
+  return conf().TMDB_READ_API_KEY;
+}
 
-const tmdbHeaders = {
-  accept: "application/json",
-  Authorization: `Bearer ${apiKey}`,
-};
+function extractV3Key(token: string | null): string | null {
+  if (!token) return null;
+  // If it's a JWT, try to extract `aud` which is the v3 key
+  if (token.includes(".")) {
+    try {
+      const parts = token.split(".");
+      if (parts.length >= 2) {
+        // base64url decode
+        const b64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+        const padded = b64 + "=".repeat((4 - (b64.length % 4)) % 4);
+        const json = atob(padded);
+        const payload = JSON.parse(json);
+        if (payload?.aud && typeof payload.aud === "string") {
+          return payload.aud;
+        }
+      }
+    } catch {
+      // fall through
+    }
+  }
+  // If it's a 32-char hex string, it's already a v3 key
+  if (/^[a-f0-9]{32}$/i.test(token.trim())) {
+    return token.trim();
+  }
+  return null;
+}
+
+function getApiKey(): string | null {
+  return getRawApiKey();
+}
+
+function getTmdbHeaders(): Record<string, string> {
+  const key = getApiKey();
+  const headers: Record<string, string> = {
+    accept: "application/json",
+  };
+  if (!key) return headers;
+  // If it looks like a JWT (v4 token), use Bearer auth
+  if (key.includes(".")) {
+    headers.Authorization = `Bearer ${key}`;
+  }
+  return headers;
+}
+
+function getV3Key(): string | null {
+  return extractV3Key(getApiKey());
+}
 
 // Cache for TMDB API responses
 interface TMDBCacheKey {
@@ -217,7 +269,11 @@ export async function get<T>(url: string, params?: object): Promise<T> {
   const userLanguage = useLanguageStore.getState().language;
   const formattedLanguage = getTmdbLanguageCode(userLanguage);
 
-  if (!apiKey) throw new Error("TMDB API key not set");
+  const currentApiKey = getApiKey();
+  const v3Key = getV3Key();
+  const headers = getTmdbHeaders();
+
+  if (!currentApiKey) throw new Error("TMDB API key not set");
 
   // Check cache first
   const cacheKey: TMDBCacheKey = {
@@ -233,10 +289,14 @@ export async function get<T>(url: string, params?: object): Promise<T> {
 
   // directly writing parameters, otherwise it will start the first parameter in the proxied request as "&" instead of "?" because it doesnt understand its proxied
   const fullUrl = new URL(tmdbBaseUrl1 + url);
-  const allParams = {
-    ...params,
+  const allParams: Record<string, string> = {
+    ...(params as any),
     language: formattedLanguage,
   };
+  // Always include v3 api_key if we have it — this makes the old JWT still work even if Bearer is revoked
+  if (v3Key) {
+    (allParams as any).api_key = v3Key;
+  }
 
   if (allParams) {
     Object.entries(allParams).forEach(([key, value]) => {
@@ -251,32 +311,54 @@ export async function get<T>(url: string, params?: object): Promise<T> {
       result = await mwFetch<T>(
         `/?destination=${encodeURIComponent(fullUrl.toString())}`,
         {
-          headers: tmdbHeaders,
+          headers,
           baseURL: proxy,
           signal: abortOnTimeout(5000),
         },
       );
+      // Detect TMDB error payload (invalid key)
+      const maybeError = result as any;
+      if (maybeError?.status_code === 7 || maybeError?.success === false) {
+        const { reportTmdbError } = await import("@/components/TmdbErrorBanner");
+        reportTmdbError(maybeError);
+        throw new Error(`TMDB error: ${maybeError?.status_message || "Invalid API key"}`);
+      }
     } catch (err) {
-      console.error(err);
+      console.error("[TMDB proxied] ", err);
+      const { reportTmdbError } = await import("@/components/TmdbErrorBanner").catch(() => ({ reportTmdbError: () => {} }));
+      reportTmdbError(err);
       // Fall through to try direct connection
     }
   }
 
   if (!result!) {
     try {
-      result = await mwFetch<T>(encodeURI(url), {
-        headers: tmdbHeaders,
-        baseURL: tmdbBaseUrl1,
-        params: allParams,
-        signal: abortOnTimeout(5000),
-      });
+      try {
+        result = await mwFetch<T>(encodeURI(url), {
+          headers,
+          baseURL: tmdbBaseUrl1,
+          params: allParams,
+          signal: abortOnTimeout(5000),
+        });
+      } catch (err) {
+        result = await mwFetch<T>(encodeURI(url), {
+          headers,
+          baseURL: tmdbBaseUrl2,
+          params: allParams,
+          signal: abortOnTimeout(30000),
+        });
+      }
+      const maybeError = result as any;
+      if (maybeError?.status_code === 7 || maybeError?.success === false) {
+        const { reportTmdbError } = await import("@/components/TmdbErrorBanner");
+        reportTmdbError(maybeError);
+        throw new Error(`TMDB error: ${maybeError?.status_message || "Invalid API key"}`);
+      }
     } catch (err) {
-      result = await mwFetch<T>(encodeURI(url), {
-        headers: tmdbHeaders,
-        baseURL: tmdbBaseUrl2,
-        params: allParams,
-        signal: abortOnTimeout(30000),
-      });
+      console.error("[TMDB direct] ", err);
+      const { reportTmdbError } = await import("@/components/TmdbErrorBanner").catch(() => ({ reportTmdbError: () => {} }));
+      reportTmdbError(err);
+      throw err;
     }
   }
 

@@ -17,6 +17,7 @@ import { KeyboardCommandsModal } from "@/components/overlays/KeyboardCommandsMod
 import { NotificationModal } from "@/components/overlays/notificationsModal";
 import { SupportInfoModal } from "@/components/overlays/SupportInfoModal";
 import { TraktAuthHandler } from "@/components/TraktAuthHandler";
+import { TmdbErrorBanner } from "@/components/TmdbErrorBanner";
 import { useGlobalKeyboardEvents } from "@/hooks/useGlobalKeyboardEvents";
 import { useOnlineListener } from "@/hooks/usePing";
 import { AboutPage } from "@/pages/About";
@@ -128,6 +129,7 @@ function App() {
 
   return (
     <Layout>
+      <TmdbErrorBanner />
       <TraktAuthHandler />
       <LanguageProvider />
       <NotificationModal id="notifications" />

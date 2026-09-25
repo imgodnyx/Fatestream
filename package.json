@@ -1,9 +1,9 @@
 {
   "packageManager": "pnpm@9.14.4",
-  "name": "AfterStream",
+  "name": "Fatestream",
   "version": "5.3.7",
   "private": true,
-  "homepage": "https://github.com/thingfoil/afterstream",
+  "homepage": "https://github.com/imgodnyx/Fatestream",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { get } from "@/backend/metadata/tmdb";
 import { Category, Genre, Movie, TVShow } from "@/pages/discover/common";
-import { conf } from "@/setup/config";
 import { useLanguageStore } from "@/stores/language";
 import { getTmdbLanguageCode } from "@/utils/language";
 
@@ -24,23 +23,18 @@ export function useTMDBData(
   const userLanguage = useLanguageStore((s) => s.language);
   const formattedLanguage = getTmdbLanguageCode(userLanguage);
 
-  // Unified fetch function
+  // Unified fetch function - optimized for performance (1 page only, shuffled)
   const fetchMedia = useCallback(
     async (endpoint: string, key: string, isGenre: boolean) => {
       try {
-        const media: Movie[] | TVShow[] = [];
-        // Reduce the number of pages to improve performance
-        for (let page = 1; page <= 2; page += 1) {
-          const data = await get<any>(endpoint, {
-            api_key: conf().TMDB_READ_API_KEY,
-            language: formattedLanguage,
-            page: page.toString(),
-            ...(isGenre ? { with_genres: key } : {}),
-          });
-          media.push(...data.results);
-        }
+        const data = await get<any>(endpoint, {
+          language: formattedLanguage,
+          page: "1",
+          ...(isGenre ? { with_genres: key } : {}),
+        });
+        const media: Movie[] | TVShow[] = [...data.results];
 
-        // Shuffle the media
+        // Shuffle the media for variety
         for (let i = media.length - 1; i > 0; i -= 1) {
           const j = Math.floor(Math.random() * (i + 1));
           [media[i], media[j]] = [media[j], media[i]];
@@ -118,7 +112,6 @@ export function useLazyTMDBData(
         const mediaItems: Movie[] | TVShow[] = [];
         // Only fetch one page for better performance
         const data = await get<any>(endpoint, {
-          api_key: conf().TMDB_READ_API_KEY,
           language: formattedLanguage,
           page: "1",
           ...(isGenre ? { with_genres: key } : {}),

@@ -67,8 +67,8 @@ export default defineConfig(({ mode }) => {
           "safari-pinned-tab.svg",
         ],
         manifest: {
-          name: "AfterStream",
-          short_name: "AfterStream",
+          name: "Fatestream",
+          short_name: "Fatestream",
           description:
             "Watch your favorite shows and movies for free with no ads ever! (っ'ヮ'c)",
           theme_color: "#000000",
@@ -123,6 +123,10 @@ export default defineConfig(({ mode }) => {
 
     build: {
       sourcemap: mode !== "production",
+      cssCodeSplit: true,
+      minify: "esbuild",
+      target: "es2020",
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
           manualChunks(id: string) {
@@ -147,6 +151,15 @@ export default defineConfig(({ mode }) => {
             if (id.includes("Icon.tsx")) {
               return "Icons";
             }
+            if (id.includes("react-router")) {
+              return "router";
+            }
+            if (id.includes("zustand") || id.includes("immer")) {
+              return "state";
+            }
+            if (id.includes("i18next") || id.includes("react-i18next")) {
+              return "i18n";
+            }
             const isCaptioningPackage = captioningPackages.some((packageName) =>
               id.includes(packageName),
             );
@@ -161,6 +174,11 @@ export default defineConfig(({ mode }) => {
       postcss: {
         plugins: [tailwind(), rtl()],
       },
+    },
+
+    server: {
+      // Allow the Arena/e2b preview host (dynamic subdomains) to load the dev server
+      allowedHosts: true,
     },
 
     resolve: {
