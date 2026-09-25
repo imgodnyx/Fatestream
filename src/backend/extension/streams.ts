@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Stream } from "@afterstream/providers";
 
 import { RULE_IDS, setDomainRule } from "@/backend/extension/messaging";
@@ -14,7 +13,9 @@ function extractDomain(url: string): string | null {
 
 function extractDomainsFromStream(stream: Stream): string[] {
   if (stream.type === "hls") {
-    return [extractDomain((stream as any).playlist)].filter((v): v is string => !!v);
+    return [extractDomain((stream as any).playlist)].filter(
+      (v): v is string => !!v,
+    );
   }
   if (stream.type === "file") {
     return Object.values((stream as any).qualities)
@@ -29,9 +30,11 @@ function buildHeadersFromStream(stream: Stream): Record<string, string> {
   Object.entries((stream as any).headers ?? {}).forEach((entry: any) => {
     headers[entry[0]] = entry[1];
   });
-  Object.entries((stream as any).preferredHeaders ?? {}).forEach((entry: any) => {
-    headers[entry[0]] = entry[1];
-  });
+  Object.entries((stream as any).preferredHeaders ?? {}).forEach(
+    (entry: any) => {
+      headers[entry[0]] = entry[1];
+    },
+  );
   return headers;
 }
 

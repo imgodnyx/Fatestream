@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Qualities, Stream } from "@afterstream/providers";
 
 import { QualityStore } from "@/stores/quality";
@@ -98,7 +97,7 @@ export function selectQuality(
     };
   if (source.type === "file") {
     const availableQualities = Object.entries(source.qualities)
-      .filter((entry) => (entry[1].url.length ?? 0) > 0)
+      .filter((entry) => (entry[1]?.url?.length ?? 0) > 0)
       .map((entry) => entry[0]) as SourceQuality[];
     // For file sources (MP4), always use manual quality selection since they don't support switching
     const manualQualityPreferences = {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ReactNode, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -130,7 +129,7 @@ export function EmbedSelectionView({ sourceId, id }: EmbedSelectionViewProps) {
   else if (watching)
     content = null; // when it starts watching, empty the display
   else if (items && sourceId)
-    content = items.map((v) => (
+    content = items.map((v: any) => (
       <EmbedOption
         key={`${v.embedId}-${v.url}`}
         embedId={v.embedId}

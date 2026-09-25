@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ScrapeMedia } from "@afterstream/providers";
 import React, { ReactNode, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -121,7 +120,7 @@ function EmbedSelectionView(props: {
       </Menu.TextDisplay>
     );
   else if (items && props.sourceId)
-    content = items.map((v) => (
+    content = items.map((v: any) => (
       <EmbedOption
         key={`${v.embedId}-${v.url}`}
         embedId={v.embedId}

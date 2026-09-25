@@ -1,4 +1,3 @@
-// @ts-nocheck
 import classNames from "classnames";
 import React from "react";
 
@@ -71,9 +70,9 @@ export function LegalPage() {
             description={
               <>
                 <Paragraph>
-                  Fatestream functions as a search engine and content
-                  aggregator that indexes publicly available media from across
-                  the internet.
+                  Fatestream functions as a search engine and content aggregator
+                  that indexes publicly available media from across the
+                  internet.
                   <br />
                   <br />
                   We don&apos;t host, store, or control any media files -

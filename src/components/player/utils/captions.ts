@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { RunOutput } from "@afterstream/providers";
 import DOMPurify from "dompurify";
 import { convert, detect, parse } from "subsrt-ts";
@@ -104,7 +103,7 @@ export function convertSubtitlesToObjectUrl(text: string): string {
 export function convertProviderCaption(
   captions: RunOutput["stream"]["captions"],
 ): CaptionListItem[] {
-  return captions.map((v) => ({
+  return captions.map((v: any) => ({
     id: v.id,
     language: v.language,
     url: v.url,

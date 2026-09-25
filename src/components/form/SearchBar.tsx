@@ -55,7 +55,8 @@ export const SearchBarInput = forwardRef<HTMLInputElement, SearchBarProps>(
             backgroundClass={c({
               "transition-all": true,
               "bg-search-background": !focused,
-              "bg-search-focused shadow-[0_0_25px_rgba(138,43,226,0.4)] border border-purple-400/30": focused,
+              "bg-search-focused shadow-[0_0_25px_rgba(138,43,226,0.4)] border border-purple-400/30":
+                focused,
             })}
           />
           <Flare.Child className="flex flex-1 flex-col">

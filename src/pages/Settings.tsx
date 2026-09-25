@@ -1,4 +1,3 @@
-// @ts-nocheck
 import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -751,7 +750,7 @@ export function SettingsPage() {
 
   const availableSources = useMemo(() => {
     const sources = getAllProviders().listSources();
-    const sourceIDs = sources.map((s) => s.id);
+    const sourceIDs = sources.map((s: any) => s.id);
     const stateSources = state.sourceOrder.state || [];
 
     // Filter out sources that are not in `stateSources` and are in `sources`
@@ -759,8 +758,8 @@ export function SettingsPage() {
 
     // Add sources from `sources` that are not in `stateSources`
     const missingSources = sources
-      .filter((s) => !stateSources.includes(s.id))
-      .map((s) => s.id);
+      .filter((s: any) => !stateSources.includes(s.id))
+      .map((s: any) => s.id);
 
     return [...updatedSources, ...missingSources];
   }, [state.sourceOrder.state]);
