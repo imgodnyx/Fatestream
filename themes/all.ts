@@ -20,8 +20,10 @@ import autumn from "./list/autumn";
 import cobalt from "./list/cobalt";
 import frost from "./list/frost";
 import christmas from "./list/christmas";
+import fatestream from "./list/fatestream";
 
 export const allThemes = [
+  fatestream,
   teal,
   blue,
   gray,

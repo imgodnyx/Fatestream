@@ -34,28 +34,28 @@ const tokens = {
     },
   },
   blue: {
-    c50: "hsla(240, 80%, 82%, 1)", // Not currently used
-    c100: "hsla(240, 40%, 64%, 1)", // Not currently used
-    c200: "hsla(240, 33%, 52%, 1)", // Theme primary color, pill highlight, global accent A
-    c300: "hsla(240, 40%, 39%, 1)", // Global accent B
-    c400: "hsla(240, 46%, 30%, 1)", // Light bar color
-    c500: "hsla(240, 45%, 22%, 1)", // Background accent B
-    c600: "hsla(240, 42%, 18%, 1)", // Not currently used
-    c700: "hsla(240, 40%, 15%, 1)", // Not currently used
-    c800: "hsla(240, 33%, 9%, 1)", // Not currently used
-    c900: "hsla(240, 25%, 6%, 1)", // Not currently used
+    c50: "hsla(195, 100%, 85%, 1)", // Light cyan
+    c100: "hsla(195, 100%, 70%, 1)", // Cyan highlight
+    c200: "hsla(265, 89%, 66%, 1)", // Fatestream primary - neon purple/blue
+    c300: "hsla(265, 75%, 55%, 1)", // Deeper purple
+    c400: "hsla(265, 70%, 40%, 1)", // Light bar
+    c500: "hsla(265, 65%, 28%, 1)", // Background accent
+    c600: "hsla(265, 60%, 20%, 1)",
+    c700: "hsla(265, 55%, 15%, 1)",
+    c800: "hsla(265, 50%, 10%, 1)",
+    c900: "hsla(265, 45%, 6%, 1)",
   },
   purple: {
-    c50: "hsla(280, 100%, 83%, 1)", // Link hover, settings tabs titles/text
-    c100: "hsla(270, 100%, 75%, 1)", // Link, logo text, video player audio set
-    c200: "hsla(270, 79%, 64%, 1)", // Progress filled, video player scraping loading, video player context accent
-    c300: "hsla(270, 61%, 55%, 1)", // Toggle button, onboarding bar filled
-    c400: "hsla(270, 59%, 47%, 1)", // Large card icon
-    c500: "hsla(270, 52%, 34%, 1)", // Background accent A
-    c600: "hsla(270, 52%, 26%, 1)", // Not currently used
-    c700: "hsla(270, 50%, 19%, 1)", // Not currently used
-    c800: "hsla(270, 48%, 14%, 1)", // Not currently used
-    c900: "hsla(270, 40%, 9%, 1)", // Not currently used
+    c50: "hsla(195, 100%, 85%, 1)", // Cyan glow
+    c100: "hsla(190, 100%, 70%, 1)", // Logo - cyan/blue neon
+    c200: "hsla(265, 89%, 70%, 1)", // Progress, accent - neon purple
+    c300: "hsla(265, 80%, 62%, 1)", // Toggle, onboarding
+    c400: "hsla(265, 75%, 55%, 1)", // Large card icon
+    c500: "hsla(265, 70%, 38%, 1)", // Background accent A - deep purple
+    c600: "hsla(265, 65%, 28%, 1)",
+    c700: "hsla(265, 60%, 20%, 1)",
+    c800: "hsla(265, 55%, 14%, 1)",
+    c900: "hsla(265, 50%, 9%, 1)",
   },
   ash: {
     c50: "hsla(210, 11%, 55%, 1)", // Authentication copy text hover, progress background, progress preloaded
