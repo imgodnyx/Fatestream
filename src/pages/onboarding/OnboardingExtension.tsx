@@ -194,7 +194,7 @@ function DefaultExtensionPage(props: ExtensionPageProps) {
       <div className="mb-6 text-left">
         <div className="flex flex-col items-center space-y-1">
           <Link
-            href="https://raw.githubusercontent.com/thingfoil/Userscript/main/afterstream.user.js"
+            href="https://raw.githubusercontent.com/thingfoil/Userscript/main/fatestream.user.js"
             target="_blank"
             className="text-sm"
           >

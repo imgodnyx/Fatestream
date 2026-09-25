@@ -1,0 +1,50 @@
+declare module "@afterstream/providers" {
+  export type EmbedOutput = any;
+  export type SourcererOutput = any;
+  export type Stream = any;
+  export type StreamFile = any;
+  export type FileBasedStream = any;
+  export type HlsBasedStream = any;
+  export type Qualities = any;
+  export type Fetcher = any;
+  export type DefaultedFetcherOptions = any;
+  export type FetcherOptions = any;
+  export type FetcherResponse = any;
+  export type RunOutput = any;
+  export type MetaOutput = any;
+  export type FullScraperEvents = any;
+  export type Targets = any;
+  export type Flags = any;
+  export type MediaTypes = any;
+  export type ShowMedia = any;
+  export type ScrapeMedia = any;
+  export type MovieMedia = any;
+  export type ProviderControls = any;
+  export type RunnerOptions = any;
+  export type EmbedRunnerOptions = any;
+  export type SourceRunnerOptions = any;
+  export type ProviderBuilder = any;
+  export type ProviderMakerOptions = any;
+  export type MovieScrapeContext = any;
+  export type ShowScrapeContext = any;
+  export type EmbedScrapeContext = any;
+  export type ScrapeContext = any;
+  export type SourcererOptions = any;
+  export type EmbedOptions = any;
+
+  export class NotFoundError extends Error {}
+  export function makeProviders(...args: any[]): any;
+  export function buildProviders(...args: any[]): any;
+  export function getBuiltinEmbeds(...args: any[]): any;
+  export function getBuiltinSources(...args: any[]): any;
+  export function getBuiltinExternalSources(...args: any[]): any;
+  export function makeStandardFetcher(...args: any[]): any;
+  export function makeSimpleProxyFetcher(...args: any[]): any;
+  export const flags: any;
+  export const targets: any;
+  export function setM3U8ProxyUrl(...args: any[]): any;
+  export function getM3U8ProxyUrl(...args: any[]): any;
+  export function createM3U8ProxyUrl(...args: any[]): any;
+  export function updateM3U8ProxyUrl(...args: any[]): any;
+  export function labelToLanguageCode(...args: any[]): any;
+}

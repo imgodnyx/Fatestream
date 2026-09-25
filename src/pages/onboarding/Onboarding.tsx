@@ -185,7 +185,7 @@ export function OnboardingPage() {
           <Card
             onClick={() =>
               window.open(
-                "https://github.com/thingfoil/afterstream-desktop/releases",
+                "https://github.com/thingfoil/fatestream-desktop/releases",
                 "_blank",
               )
             }
@@ -259,7 +259,7 @@ export function OnboardingPage() {
           {/* <Card
             onClick={() =>
               window.open(
-                "https://github.com/thingfoil/afterstream-desktop/releases",
+                "https://github.com/thingfoil/fatestream-desktop/releases",
                 "_blank",
               )
             }

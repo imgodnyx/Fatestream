@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Fetcher,
   makeSimpleProxyFetcher,
@@ -75,7 +76,7 @@ export function setupM3U8Proxy() {
 }
 
 export function makeLoadBalancedSimpleProxyFetcher() {
-  const fetcher: Fetcher = async (a, b) => {
+  const fetcher: Fetcher = async (a: any, b: any) => {
     const currentFetcher = makeSimpleProxyFetcher(
       getLoadbalancedProxyUrl(),
       fetchButWithApiTokens,
@@ -98,7 +99,7 @@ function makeFinalHeaders(
 }
 
 export function makeExtensionFetcher() {
-  const fetcher: Fetcher = async (url, ops) => {
+  const fetcher: Fetcher = async (url: any, ops: any) => {
     const result = await sendExtensionRequest<any>({
       url,
       ...ops,

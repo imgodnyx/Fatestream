@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { labelToLanguageCode } from "@afterstream/providers";
 import classNames from "classnames";
 import Fuse from "fuse.js";

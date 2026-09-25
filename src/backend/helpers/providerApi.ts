@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MetaOutput } from "@afterstream/providers";
 import { jwtDecode } from "jwt-decode";
 

@@ -101,7 +101,7 @@ function VideoElement() {
     subtitleTrack = (
       <track
         ref={trackEl}
-        label="AfterStream Captions"
+        label="Fatestream Captions"
         kind="subtitles"
         srcLang={language}
         src={trackObjectUrl}
