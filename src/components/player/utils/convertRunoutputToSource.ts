@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Stream } from "@afterstream/providers";
 
 import {

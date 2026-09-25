@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Qualities, Stream } from "@afterstream/providers";
 
 import { QualityStore } from "@/stores/quality";

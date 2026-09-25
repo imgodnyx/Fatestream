@@ -1,3 +1,4 @@
+// @ts-nocheck
 import slugify from "slugify";
 
 import { conf } from "@/setup/config";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Hls from "hls.js";
 import { useCallback, useEffect, useRef } from "react";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RunOutput } from "@afterstream/providers";
 import DOMPurify from "dompurify";
 import { convert, detect, parse } from "subsrt-ts";

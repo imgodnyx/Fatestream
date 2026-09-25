@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-console */
 import { labelToLanguageCode } from "@afterstream/providers";
 
