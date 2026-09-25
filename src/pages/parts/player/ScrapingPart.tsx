@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ProviderControls, ScrapeMedia } from "@afterstream/providers";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";

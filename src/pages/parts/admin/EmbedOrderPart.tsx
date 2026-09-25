@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -32,18 +31,18 @@ export function EmbedOrderPart({
 
     // If embed order is empty, show all available embeds
     if (embedOrder.length === 0) {
-      return allEmbeds.map((e) => ({
+      return allEmbeds.map((e: any) => ({
         id: e.id,
         name: e.name || e.id,
-        disabled: !currentDeviceEmbeds.find((embed) => embed.id === e.id),
+        disabled: !currentDeviceEmbeds.find((embed: any) => embed.id === e.id),
       }));
     }
 
     // Otherwise, show embeds in the specified order
     return embedOrder.map((id) => ({
       id,
-      name: allEmbeds.find((e) => e.id === id)?.name || id,
-      disabled: !currentDeviceEmbeds.find((e) => e.id === id),
+      name: allEmbeds.find((e: any) => e.id === id)?.name || id,
+      disabled: !currentDeviceEmbeds.find((e: any) => e.id === id),
     }));
   }, [embedOrder, allEmbeds]);
 
@@ -86,7 +85,7 @@ export function EmbedOrderPart({
             <Button
               className="max-w-[25rem]"
               theme="secondary"
-              onClick={() => setEmbedOrder(allEmbeds.map((e) => e.id))}
+              onClick={() => setEmbedOrder(allEmbeds.map((e: any) => e.id))}
             >
               {t("settings.reset")}
             </Button>

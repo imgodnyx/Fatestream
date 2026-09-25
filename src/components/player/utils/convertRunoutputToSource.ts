@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Stream } from "@afterstream/providers";
 
 import {
@@ -35,7 +34,7 @@ export function convertRunoutputToSource(out: {
   }
   if (out.stream.type === "file") {
     const qualities: Partial<Record<SourceQuality, SourceFileStream>> = {};
-    Object.entries(out.stream.qualities).forEach((entry) => {
+    Object.entries<any>(out.stream.qualities).forEach((entry) => {
       if (!isAllowedQuality(entry[0])) {
         console.warn(`unrecognized quality: ${entry[0]}`);
         return;

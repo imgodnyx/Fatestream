@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Hls from "hls.js";
 import { useCallback, useEffect, useRef } from "react";
 
@@ -30,7 +29,7 @@ function selectLowestQuality(source: SourceSliceSource): LoadableSource {
 
   if (source.type === "file") {
     const availableQualities = Object.entries(source.qualities)
-      .filter((entry) => (entry[1].url.length ?? 0) > 0)
+      .filter((entry) => (entry[1]?.url?.length ?? 0) > 0)
       .map((entry) => entry[0]) as SourceQuality[];
 
     // Quality sorting by priority (higher number = higher quality)

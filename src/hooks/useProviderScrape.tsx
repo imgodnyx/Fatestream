@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   FullScraperEvents,
   RunOutput,
@@ -29,9 +28,10 @@ export interface ScrapingSegment {
   percentage: number;
 }
 
-type ScraperEvent<Event extends keyof FullScraperEvents> = Parameters<
-  NonNullable<FullScraperEvents[Event]>
->[0];
+// `@afterstream/providers` ships no type declarations (see src/@types/providers.d.ts),
+// so `FullScraperEvents` is `any` and deriving the payload from it yields `unknown`.
+// Keep the event-name argument for readability but treat payloads as untyped.
+type ScraperEvent<_Event extends keyof FullScraperEvents> = any;
 
 function useBaseScrape() {
   const [sources, setSources] = useState<Record<string, ScrapingSegment>>({});
@@ -41,7 +41,7 @@ function useBaseScrape() {
 
   const initEvent = useCallback((evt: ScraperEvent<"init">) => {
     setSources(
-      evt.sourceIds
+      (evt.sourceIds as string[])
         .map((v) => {
           const source = getCachedMetadata().find((s) => s.id === v);
           if (!source) throw new Error("invalid source id");
@@ -58,7 +58,9 @@ function useBaseScrape() {
           return a;
         }, {}),
     );
-    setSourceOrder(evt.sourceIds.map((v) => ({ id: v, children: [] })));
+    setSourceOrder(
+      (evt.sourceIds as string[]).map((v) => ({ id: v, children: [] })),
+    );
   }, []);
 
   const startEvent = useCallback((id: ScraperEvent<"start">) => {
@@ -88,7 +90,7 @@ function useBaseScrape() {
   const discoverEmbedsEvent = useCallback(
     (evt: ScraperEvent<"discoverEmbeds">) => {
       setSources((s) => {
-        evt.embeds.forEach((v) => {
+        evt.embeds.forEach((v: any) => {
           const source = getCachedMetadata().find(
             (src) => src.id === v.embedScraperId,
           );
@@ -107,7 +109,7 @@ function useBaseScrape() {
       setSourceOrder((s) => {
         const source = s.find((v) => v.id === evt.sourceId);
         if (!source) throw new Error("invalid source id");
-        source.children = evt.embeds.map((v) => v.id);
+        source.children = evt.embeds.map((v: any) => v.id);
         return [...s];
       });
     },
@@ -193,9 +195,9 @@ export function useScrape() {
         : {};
 
       // Start with all available sources (filtered by failed ones only)
-      let baseSourceOrder = allSources
-        .filter((source) => !failedSources.includes(source.id))
-        .map((source) => source.id);
+      let baseSourceOrder: string[] = allSources
+        .filter((source: any) => !failedSources.includes(source.id))
+        .map((source: any) => source.id);
 
       // Apply custom source ordering if enabled
       if (enableSourceOrder && (preferredSourceOrder || []).length > 0) {

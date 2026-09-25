@@ -1,4 +1,3 @@
-// @ts-nocheck
 import slugify from "slugify";
 
 import { conf } from "@/setup/config";
@@ -320,13 +319,19 @@ export async function get<T>(url: string, params?: object): Promise<T> {
       // Detect TMDB error payload (invalid key)
       const maybeError = result as any;
       if (maybeError?.status_code === 7 || maybeError?.success === false) {
-        const { reportTmdbError } = await import("@/components/TmdbErrorBanner");
+        const { reportTmdbError } = await import(
+          "@/components/TmdbErrorBanner"
+        );
         reportTmdbError(maybeError);
-        throw new Error(`TMDB error: ${maybeError?.status_message || "Invalid API key"}`);
+        throw new Error(
+          `TMDB error: ${maybeError?.status_message || "Invalid API key"}`,
+        );
       }
     } catch (err) {
       console.error("[TMDB proxied] ", err);
-      const { reportTmdbError } = await import("@/components/TmdbErrorBanner").catch(() => ({ reportTmdbError: () => {} }));
+      const { reportTmdbError } = await import(
+        "@/components/TmdbErrorBanner"
+      ).catch(() => ({ reportTmdbError: () => {} }));
       reportTmdbError(err);
       // Fall through to try direct connection
     }
@@ -351,13 +356,19 @@ export async function get<T>(url: string, params?: object): Promise<T> {
       }
       const maybeError = result as any;
       if (maybeError?.status_code === 7 || maybeError?.success === false) {
-        const { reportTmdbError } = await import("@/components/TmdbErrorBanner");
+        const { reportTmdbError } = await import(
+          "@/components/TmdbErrorBanner"
+        );
         reportTmdbError(maybeError);
-        throw new Error(`TMDB error: ${maybeError?.status_message || "Invalid API key"}`);
+        throw new Error(
+          `TMDB error: ${maybeError?.status_message || "Invalid API key"}`,
+        );
       }
     } catch (err) {
       console.error("[TMDB direct] ", err);
-      const { reportTmdbError } = await import("@/components/TmdbErrorBanner").catch(() => ({ reportTmdbError: () => {} }));
+      const { reportTmdbError } = await import(
+        "@/components/TmdbErrorBanner"
+      ).catch(() => ({ reportTmdbError: () => {} }));
       reportTmdbError(err);
       throw err;
     }

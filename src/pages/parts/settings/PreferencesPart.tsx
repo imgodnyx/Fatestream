@@ -1,4 +1,3 @@
-// @ts-nocheck
 import classNames from "classnames";
 import { useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -73,8 +72,8 @@ export function PreferencesPart(props: {
     const currentDeviceSources = getProviders().listSources();
     return props.sourceOrder.map((id) => ({
       id,
-      name: allSources.find((s) => s.id === id)?.name || id,
-      disabled: !currentDeviceSources.find((s) => s.id === id),
+      name: allSources.find((s: any) => s.id === id)?.name || id,
+      disabled: !currentDeviceSources.find((s: any) => s.id === id),
     }));
   }, [props.sourceOrder, allSources]);
 
@@ -293,13 +292,21 @@ export function PreferencesPart(props: {
           <div className="bg-dropdown-background rounded-lg p-4 max-w-[25rem]">
             <p className="text-white font-bold mb-2">TMDB API Key (Advanced)</p>
             <p className="text-sm opacity-80 mb-3">
-              If movies don't load, your TMDB key might be invalid. You can set a custom key here. Get a free key at themoviedb.org → Settings → API. Leave empty to use default.
+              If movies don&apos;t load, your TMDB key might be invalid. You can
+              set a custom key here. Get a free key at themoviedb.org → Settings
+              → API. Leave empty to use default.
             </p>
             <input
               type="text"
               placeholder="Paste TMDB v4 Bearer or v3 API key"
               className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-purple-400"
-              defaultValue={(() => { try { return localStorage.getItem("tmdb-api-key-override") || ""; } catch { return ""; } })()}
+              defaultValue={(() => {
+                try {
+                  return localStorage.getItem("tmdb-api-key-override") || "";
+                } catch {
+                  return "";
+                }
+              })()}
               onBlur={(e) => {
                 const val = e.target.value.trim();
                 try {
@@ -308,13 +315,17 @@ export function PreferencesPart(props: {
                   // Clear error flag
                   localStorage.removeItem("tmdb-error-flag");
                   window.location.reload();
-                } catch {}
+                } catch {
+                  // ignore failures while persisting the override
+                }
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") (e.target as HTMLInputElement).blur();
               }}
             />
-            <p className="text-xs opacity-60 mt-2">Press Enter or click outside to save and reload.</p>
+            <p className="text-xs opacity-60 mt-2">
+              Press Enter or click outside to save and reload.
+            </p>
           </div>
           <div className="flex flex-col gap-3">
             {/* Manual Source Selection */}
@@ -453,7 +464,7 @@ export function PreferencesPart(props: {
                   className="max-w-[25rem]"
                   theme="secondary"
                   onClick={() =>
-                    props.setSourceOrder(allSources.map((s) => s.id))
+                    props.setSourceOrder(allSources.map((s: any) => s.id))
                   }
                 >
                   {t("settings.reset")}

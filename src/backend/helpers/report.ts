@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ScrapeMedia } from "@afterstream/providers";
 import { nanoid } from "nanoid";
 import { ofetch } from "ofetch";
